@@ -1,0 +1,28 @@
+.card{
+    margin: 0 auto;
+}
+
+
+.btn-deconnexion{
+    background-color: #F05941;
+    color: white;
+}
+
+.card img{
+    height: 100%;
+}
+
+
+.btn-search{
+    background-color: #BE3144;
+    color: white;
+}
+
+thead tr th{
+    background-color: #F05941;
+    color: white;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
+/* #BE3144 */

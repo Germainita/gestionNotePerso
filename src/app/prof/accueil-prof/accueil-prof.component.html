@@ -1,0 +1,377 @@
+<div class="container my-5" *ngIf="profConnect">
+  <!-- Le profil  -->
+  <div class="card mb-5 shadow-sm border-0 rounded-5" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-6">
+        <img [src]="profConnect.image" class="img-fluid rounded-start-5" alt="">
+      </div>
+      <div class="col-md-6 ps-3">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{profConnect.nom}} {{profConnect.prenom}}</h5>
+          <p class="card-text"><span class="fw-bold">Email:</span> {{profConnect.email}}</p>
+          <p class="card-text"><span class="fw-bold">Telephone:</span> {{profConnect.telephone}}</p>
+          <p class="card-text"><span class="fw-bold">Adresse:</span> {{profConnect.adresse}}</p>
+          <p class="card-text"><span class="fw-bold">Statut:</span> Professeur</p>
+          <a href="#" routerLink="/auth" class="btn btn-deconnexion">Deconnexion</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des matiere du prof  -->
+  <div class="container-list-matiere" *ngIf="isDetails && isNote">
+    <div class="row mb-3">
+      <h3 class="fw-bold">{{classeFound.nomClasse}}</h3>
+      <h3><span class= "fw-bold">Effectif:</span> {{classeFound.effectif}}</h3>
+      <h3><span class= "fw-bold">Nombre d'apprenant:</span> {{classeFound.apprenants.length}}</h3>
+      
+    </div>
+  
+    <table class="table table-responsive shadow-sm">
+      <thead>
+        <tr>
+          <th scope="col">Matiere</th>
+          <th scope="col">Description</th>
+          <th scope="col">Nombre d'évaluation</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let matiere of tabMatieresProf">
+        <tr>
+          <td>{{matiere.nomMatiere}}</td>
+          <td>{{matiere.description}}</td>
+          <td>{{matiere.evaluation.length}}</td>
+          <td>
+            <button class="btn btn-details me-3" (click)="detailsMatiere(matiere); showDetails()">Détails</button>
+            <button class="btn btn-evaluer" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal(matiere)">Evaluer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Détails d'une matières avec les évaluations -->
+  <div class="container-details-matiere" *ngIf="!isDetails">
+    <i class="bi bi-arrow-left-circle-fill fs-2" (click)="showDetails()"></i>
+
+    <!-- Recherche suivant le semestre et/ou l'annee scolaire  -->
+    <div class="d-flex justify-content-between mb-5">
+      <div class="col-md-4">
+        <h3  class="fw-bold">Evaluation de {{matiereFound.nomMatiere}}</h3>
+      </div>
+      <div class="col-md-2 px-2">
+        <select class="form-select" [(ngModel)]="filteredSemestre">
+            <option value="all">Tout</option>
+            <option value="Semestre 1">Semestre 1</option>
+            <option value="Semestre 2">Semestre 2</option>
+            <option value="Semestre 3">Semestre 3</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+          <select class="form-select" [(ngModel)]="anneeScolaire">
+              <option value="2022/2023">2022/2023</option>
+              <option value="2023/2024">2023/2024</option>
+          </select>
+      </div>
+      <div class="col-md-4">
+          <button class="btn btn-search ms-3" (click)="onSearchEvaluations()">Rechercher</button>
+          <span class="ms-5 fw-bold">Annee actuelle: {{anneeScolaireActu}}</span>
+      </div> 
+    </div>
+  
+    <!-- La liste des evaluation de la matiere  -->
+    <table class="table table-responsive shadow-sm">
+      <thead>
+        <tr>
+          <th scope="col">Annee Scolaire</th>
+          <th scope="col">Semestre</th>
+          <th scope="col">Date</th>
+          <th scope="col">Etat</th>
+          <th scope="col">Type</th>
+          <th scope="col">Evalué</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let evaluation of evaluationsFiltered">
+        <tr>
+          <td>{{evaluation.anneeScolaire}}</td>
+          <td>{{evaluation.semestre}}</td>
+          <td>{{evaluation.date | date: "dd/MM/yyyy" }}</td>
+          <td>{{evaluation.etat}}</td>
+          <td>{{evaluation.type}}</td>
+          <td>{{evaluation.isNoted}}</td>
+          <td>
+            <button type="button" class="me-3 button-action" [disabled]="evaluation.etat === 'faite'" data-bs-toggle="modal" data-bs-target="#modifieModal"
+                  (click)="chargerInfosEvaluation(evaluation)"><i class="bi bi-pencil-square"></i>Modifier</button>
+            
+            <button type="button" class="me-3 button-action" [disabled]="evaluation.etat === 'reportee' || evaluation.etat === 'faite'" (click)="noter(evaluation); showNotes()">
+              <i class="bi bi-plus-circle"></i>Noter</button>
+
+            <button type="button" class="button-action" [disabled]="evaluation.etat === 'reportee' || evaluation.etat === 'En cours' " data-bs-toggle="modal" data-bs-target="#detailNoteApprenant" (click)="showDetailsEvalution(evaluation)">
+              <i class="bi bi-list"></i>Detail</button>
+              
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Liste des apprenants de la classe -->
+  <div class="container-list-apprenant" *ngIf="!isNote">
+    <i class="bi bi-arrow-left-circle-fill fs-2" (click)="showDetails()"></i>
+    <div class="row mb-3">
+      
+      <h3 class="fw-bold">Evaluation de {{matiereFound.nomMatiere}} {{classeFound.nomClasse}}</h3>
+      <!-- <h3 class="fw-bold">{{classeFound.nomClasse}}</h3> -->
+      <h3><span class= "fw-bold">Effectif:</span> {{classeFound.effectif}}</h3>
+      <h3><span class= "fw-bold">Nombre d'apprenant:</span> {{classeFound.apprenants.length}}</h3>
+      <!-- <h3 class="col-md-7 fw-bold">Liste des apprenants</h3> -->
+      
+    </div>
+  
+    <table class="table table-responsive shadow-sm-sm">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Prenom</th>
+          <th scope="col">Email</th>
+          <th scope="col">Note</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let apprenant of tabApprenants">
+        <tr>
+          <td>{{apprenant.nom}}</td>
+          <td>{{apprenant.prenom}}</td>
+          <td>{{apprenant.email}}</td>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="apprenant.note">
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-end"><button class="btn btn-noter" (click)="validerNote()">Noter</button></div>
+  </div>
+
+
+</div>
+
+
+<!-- Modal pour ajout evaluation-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Formulaire de creation d'evaluation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-card">
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Semestre<span
+                  class="text-danger"> *</span></label>
+
+              <select class="form-select" aria-label="Default select example" id="semestre" name="semestreInput"
+                [(ngModel)]="semestreInput">
+                <option value="Semestre 1">Semestre 1</option>
+                <option value="Semestre 2">Semestre 2</option>
+                <option value="Semestre 3">Semestre 3</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Date <span
+                  class="text-danger"> *</span></label> <input type="date" id="date" name="date"
+                placeholder="Enter your date" [(ngModel)]="dateInput"> </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Type
+                Evaluation<span class="text-danger"> *</span></label>
+              <select class="form-select" aria-label="Default select example" id="type" name="typeInput"
+                [(ngModel)]="typeInput">
+                <option value="devoir">Devoir</option>
+                <option value="examen">Examen</option>
+
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Annee<span
+                  class="text-danger"> *</span></label>
+                  <select [(ngModel)]="anneeInput" class="form-select" name="anneeInput">
+                    <option value="2023/2024">2023/2024</option>
+                    <option value="2024/2025">2024/2025</option>
+                    <option value="2026/2027">2026/2027</option>
+                    <option value="2027/2028">2027/2028</option>
+                    <!-- <option *ngFor="let option of tabMatieresTmp" [value]="option.nomMatiere">{{ option.nomMatiere }}
+                    </option> -->
+                  </select>
+              <!-- <input type="date" id="annee" name="annee" placeholder="annee en cours" [(ngModel)]="anneeInput"> -->
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Etat de
+                l'evaluation<span class="text-danger"> *</span></label>
+              <select class="form-select" aria-label="Default select example" id="type" name="etatInput"
+                [(ngModel)]="etatInput">
+                <option value="En cours">En cours</option>
+                
+              </select>
+            </div>
+            
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChamps()">Annuler</button>
+        <button type="button" class="btn btn-valider" data-bs-dismiss="modal"
+          (click)="ajouterEvaluation()">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal pour modifier  evaluation-->
+<div class="modal fade" id="modifieModal" tabindex="-1" aria-labelledby="modifieModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Formulaire de modification d'une evaluation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-card">
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Semestre<span
+                  class="text-danger"> *</span></label>
+              <select class="form-select" aria-label="Default select example" id="semestre" name="semestreInput"
+                [(ngModel)]="semestreInput">
+                <option value="Semestre 1">Semestre 1</option>
+                <option value="Semestre 2">Semestre 2</option>
+                <option value="Semestre 3">Semestre 3</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Date <span
+                  class="text-danger"> *</span></label> <input type="date" id="date" name="date"
+                placeholder="Enter your date" [(ngModel)]="dateInput"> </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Type
+                Evaluation<span class="text-danger"> *</span></label>
+              <select class="form-select" aria-label="Default select example" id="type" name="typeInput"
+                [(ngModel)]="typeInput">
+                <option value="devoir">Devoir</option>
+                <option value="examen">Examen</option>
+
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Annee<span
+                  class="text-danger"> *</span></label>
+              <input type="text" id="annee" name="annee" placeholder="annee en cours" [(ngModel)]="anneeInput">
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Etat de
+                l'evaluation<span class="text-danger"> *</span></label>
+              <select class="form-select" aria-label="Default select example" id="type" name="etatInput"
+                [(ngModel)]="etatInput">
+                <option value="En cours">Encours</option>
+                <option value="faite">Fait</option>
+                <option value="reportee">Reportee</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChamps()">Annuler</button>
+        <button type="button" class="btn btn-valider" data-bs-dismiss="modal"
+          (click)="modifierEvaluation()">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal détail evaluation prof  -->
+<div class="modal fade" id="detailEvaluation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Détail d'une evaluation</h1>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="card-body">
+            <div class="row text-center">
+              <span data-bs-toggle="modal" data-bs-target="#detailMatiere" class="text-start"><i
+                  class="bi bi-arrow-left-circle-fill"></i></span>
+              <h5 class="card-title fw-bold">Professeur: {{profConnect.nom}} {{profConnect.prenom}}</h5>
+            </div>
+            <div class="row my-3">
+              <p class="card-text"><span class="fw-bold">Classe:</span> {{classeInput}}</p>
+              <p class="card-text"><span class="fw-bold">Evaluation :</span>{{numEvaluation}}</p>
+              <p class="card-text"><span class="fw-bold">Date:</span> {{dateInput | date: 'dd/MM'}}</p>
+              <p class="card-text"><span class="fw-bold">Type:</span> {{typeEvaluation}} </p>
+              <p class="card-text"><span class="fw-bold">Etat de l'evaluation:</span> {{etatEvaluation}}</p>
+              <p class="card-text"><span class="fw-bold">Annee scolaire:</span> {{anneScolaire}}</p>
+              <p class="card-text"><span class="fw-bold">CreatedAt:</span> {{createAt | date: 'dd/MM/yyyy'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour note des apprenant  -->
+<div class="modal fade" id="detailNoteApprenant" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+      <div class="modal-content" style="width: 740px;">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Note des apprenants</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card mb-3">
+              <div class="card-body">
+                  <!-- <div class="row text-center"> -->
+                      <!-- <span data-bs-toggle="modal" data-bs-target="#detailEvaluation" class="text-start"><i class="bi bi-arrow-left-circle-fill"></i></span> -->
+                      <!-- <h5 class="card-title fw-bold">Professeur: {{prenom}} {{nom}}</h5> -->
+                  <!-- </div> -->
+                  <div class="row my-3">
+                      <!-- <p class="card-text"><span class="fw-bold">Classe:</span> {{classe}}</p>        
+                      <p class="card-text"><span class="fw-bold">Matiere:</span> {{nomMatiere}} </p>  -->
+                      <div class="list-user" >
+                          <div class="row  align-items-start g-2 rounded-2 py-2 row-list-user">
+                              <div class="col-2 fw-bold"></div>
+                              <div class="col-2 fw-bold">Nom: </div>
+                              <div class="col-3 fw-bold">Prenom: </div>
+                              <div class="col-4 fw-bold">Email: </div>
+                              <div class="col-1 fw-bold">Note: </div>
+                              <!-- <div class="col">
+                                  <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailProf" (click)="detailProf(prof)">Détails</button>
+                              </div> -->
+                          </div>
+                          <div class="row justify-content-center align-items-center g-2 rounded-2 py-2 row-list-user" *ngFor="let apprenantEvalue of tabApprenants">
+                              <div class="col-2" *ngIf="apprenantEvalue.image"><img [src]="apprenantEvalue.image" alt="" class="imageUser"></div>
+                              <div class="col-2" *ngIf="!apprenantEvalue.image"><i class="bi bi-person-circle fs-5"></i></div>
+                              <div class="col-2">{{apprenantEvalue.nom}}</div>
+                              <div class="col-3">{{apprenantEvalue.prenom}}</div>
+                              <div class="col-4">{{apprenantEvalue.email}}</div>
+                              <div class="col-1" *ngIf="showNote"><i class="bi bi-eye-fill" (click)="noteApprenantFound(apprenantEvalue); showNoteApprenant()"></i></div>
+                              <div class="col-1" *ngIf="!showNote"> <span *ngIf="apprenantEvalue.idApprenant == idAppFound"> {{noteApprenant}} </span> <i class="bi bi-eye-slash-fill" (click)="showNoteApprenant()"></i></div>
+                              <!-- <div class="col">
+                                  <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailProf" (click)="detailProf(prof)">Détails</button>
+                              </div> -->
+                          </div>
+                      </div>
+                           
+                  </div>
+              </div>
+            </div>           
+          </div>
+      </div>
+  </div>
+</div>

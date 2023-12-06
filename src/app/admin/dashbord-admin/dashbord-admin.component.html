@@ -1,0 +1,639 @@
+<div class="main-container px-0">
+    <div class="grid-item">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark menu" >
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+              <img src="assets/logogestionNote.png" class="logo" alt="">
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+              
+              <li class="nav-item mb-3">
+                <a href="#" class="nav-link  active-page" aria-current="page">Dashbord</a>
+              </li>
+              <li class="nav-item mb-3">
+                <a href="#" class="nav-link" routerLink="/admin-gestionProf">Gestion professeur</a>
+              </li>
+              <li class="nav-item mb-3">
+                <a href="#" class="nav-link" routerLink="/admin-gestionApprenant">Gestion apprenant</a>
+              </li>              
+            </ul>
+
+            <hr>
+            <a href="#" class="nav-link déconnexion fs-5 fw-bold ms-3" >Deconnexion</a>
+          </div>
+    </div>
+    <div class="grid-item">
+        <div class="second-menu mb-3">
+            <div class="container my-3">
+                <div class="row">
+                    <div class="search col-md-8">
+                        <p class="fs-4"><i class="annee-scolaire bi bi-calendar2-event-fill me-2 fs-2"></i> Anneée scolaire: {{anneeScolaireActu}}</p>
+                    </div>
+                    
+                    <div class="profil col-md-4">
+                        <p class="fs-4">
+                            <span class="me-2"><i class="bi bi-person-circle fs-2"></i></span>
+                            <span class="fw-bold">{{adminConnect.email}}</span>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        
+        <div>
+            <div class="container">                
+                <div class="actions mb-3 text-center">
+                    <button class="add-prof btn me-4 mb-3" data-bs-toggle="modal" data-bs-target="#ajoutProf">Ajouter un professeur</button>
+                    <button class="add-app btn me-4 mb-3" data-bs-toggle="modal" data-bs-target="#ajoutApprenant">Ajouter un apprenant</button>
+                    <button class="add-prof btn me-4 mb-3" data-bs-toggle="modal" data-bs-target="#ajoutMatiere">Ajouter une matière</button>
+                    <button class="add-app btn me-4 mb-3" data-bs-toggle="modal" data-bs-target="#ajoutClasse">Ajouter une classe</button>
+                </div>
+        
+                <!-- Contenu principale section du dashbord -->
+                <div class="list-all-users mb-3" *ngIf="showStatistic">
+                    <div class="row">
+                        <!-- Liste des professeurs  -->
+                        <div class="col-md-4 mb-3 py-4 px-4">
+                            <div class="card shadow rounded-3 px-3 py-4 border border-0">
+                                <div class="row">
+                                    <p class="col-md-4">Liste des professeurs</p>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" name="searchProf" class="form-control" [(ngModel)]="filterValueProf" (input)="onSearchProf()">
+                                            <button class="input-group-text btn-search"><i class="search bi bi-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-user" >
+                                    <div class="row justify-content-center align-items-center g-2 rounded-2 py-2 row-list-user" *ngFor="let prof of tabProfsFilter.reverse()">
+                                        <div class="col" *ngIf="prof.image"><img [src]="prof.image" alt="" class="imageUser"></div>
+                                        <div class="col" *ngIf="!prof.image"><i class="bi bi-person-circle fs-5"></i></div>
+                                        <div class="col">{{prof.nom}}</div>
+                                        <div class="col">{{prof.prenom}}</div>
+                                        <div class="col">
+                                            <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailProf" (click)="detailProf(prof)">Détails</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Liste des apprenants  -->
+                        <div class="col-md-4 mb-3 py-4 px-4">
+                            <div class="card shadow rounded-3 px-3 py-4 border border-0">
+                                <div class="row">
+                                    <p class="col-md-4">Liste des apprenants</p>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" name="searchProf" class="form-control" [(ngModel)]="filterValue" (input)="onSearchApprenant()">
+                                            <button class="input-group-text btn-search"><i class="search bi bi-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-user" >
+                                    <div class="row justify-content-center align-items-center g-2 rounded-2 py-2 row-list-user" *ngFor="let apprenant of tabApprenantsFilter.reverse()">
+                                        <div class="col" *ngIf="apprenant.image"><img [src]="apprenant.image" alt="" class="imageUser"></div>
+                                        <div class="col" *ngIf="!apprenant.image"><i class="bi bi-person-circle fs-5"></i></div>
+                                        <div class="col">{{apprenant.nom}}</div>
+                                        <div class="col">{{apprenant.prenom}}</div>
+                                        <div class="col">
+                                            <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailApprenant" (click)="detailApprenant(apprenant)">Détails</button>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <button *ngIf="apprenant.etatApprenant== 0" class="btn-inactif rounded-1">Activer</button>
+                                            <button *ngIf="apprenant.etatApprenant== 1" class="btn-actif rounded-1">Desactiver</button>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Statistiques d'enregistrement -->
+                        <div class="statistic col-md-4 mb-3 py-4">
+                            <div class="row">
+                                <!-- Nombre total de professeurs enregistrés -->
+                                <div class="statistic-item col-md-6 mb-3">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <div class="prof px-3 py-2 d-flex justify-content-between rounded-4 mb-3">
+                                                <i class="bi bi-person-fill d-block"></i>
+                                                <span class="pontier d-block">...</span>
+                                            </div>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="tabProfesseurs.length">{{tabProfesseurs.length}}</p>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="!tabProfesseurs.length">0</p>
+                                            <h5 class="card-title mb-3">Professeur (s)</h5>
+                                            <a href="#" class="btn btn-prof btn-statictic"  routerLink="/admin-gestionProf" >Gérer</a>
+                                        </div>
+                                        <!-- <ng-template #elseTabProf >0</ng-template>  -->
+                                    </div>
+                                </div>
+        
+                                <!-- Nombre total d'apprenants enregistrés -->
+                                <div class="statistic-item col-md-6 mb-3">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <div class="app px-3 py-2 d-flex justify-content-between rounded-4 mb-3">
+                                                <!-- <i class="bi bi-person-fill d-block"></i> -->
+                                                <i class="bi bi-person-vcard-fill d-block"></i>
+                                                <span class="pontier d-block">...</span>
+                                            </div>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="tabApprenants.length">{{tabApprenants.length}}</p>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="!tabApprenants.length">0</p>
+                                            <h5 class="card-title mb-3">Apprenant (s)</h5>
+                                            <a href="#" class="btn btn-app btn-statictic"  routerLink="/admin-gestionApprenant">Gérer</a>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Nombre total de classes enregistrés -->
+                                <div class="statistic-item col-md-6 mb-3">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <div class="classe px-3 py-2 d-flex justify-content-between rounded-4 mb-3">
+                                                <!-- <i class="bi bi-person-fill d-block"></i> -->
+                                                <i class="bi bi-bank d-block"></i>
+                                                <span class="pontier d-block">...</span>
+                                            </div>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="tabClasses.length">{{tabClasses.length}}</p>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="!tabClasses.length">0</p>
+                                            <h5 class="card-title mb-3">Classe (s)</h5>
+                                            <a href="#" class="btn btn-classe btn-statictic" routerLink="/admin-gestionApprenant">Gérer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Nombre total de matières enregistré -->
+                                <div class="statistic-item col-md-6 mb-3">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <div class="matiere px-3 py-2 d-flex justify-content-between rounded-4 mb-3">
+                                                <!-- <i class="bi bi-person-fill d-block"></i> -->
+                                                <i class="bi bi-bookmarks-fill d-block"></i>
+                                                <span class="pontier d-block">...</span>
+                                            </div>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="tabMatieres.length">{{tabMatieres.length}}</p>
+                                            <p class="card-text fw-bold fs-4 text-center" *ngIf="!tabMatieres.length">0</p>
+                                            <h5 class="card-title mb-3">Matière (s)</h5>
+                                            <button class="btn btn-matiere btn-statictic" (click)="showStatisticFunction()">Gérer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gestion des matieres  -->
+                <div class="gestion-matiere mt-5" *ngIf="!showStatistic">
+                    <div class="container">
+                        <i class="bi bi-arrow-left-square-fill fs-2 mb-3" (click)="showStatisticFunction()"></i>
+                        <div class="row mb-3">
+                            <h3 class="col-md-7 fw-bold">Liste des matieres</h3>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" name="searchProf" class="form-control" [(ngModel)]="filterValue" (input)="onSearchMatiere()">
+                                    <button class="input-group-text btn-search"><i class="search bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-responsive shadow">
+                            <thead>
+                            <tr>
+                                <th scope="col">Numero</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody *ngFor="let matiere of tabMatieresFilter">
+                            <tr>
+                                <th>{{matiere.idMatiere}}</th>
+                                <td>{{matiere.nomMatiere}}</td>
+                                <td>{{matiere.description}}</td>
+                                <td>
+                                    <button class="btn btn-modifier me-2" data-bs-toggle="modal" data-bs-target="#modifierMatiere" (click)="chargerInfosMatiere(matiere)" >Modifier</button>
+                                    <button class="btn btn-details me-2" data-bs-toggle="modal" data-bs-target="#detailMatiere" (click)="detailMatiere(matiere)">Détails</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ajout Professeur -->
+<div class="modal fade" id="ajoutProf" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un professeur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">Nom: </label>
+                    <input type="text" name="name" class="form-control" id="nameInput" [(ngModel)] = "nom">
+                </div>
+                <div class="mb-3">
+                    <label for="prenomInput" class="form-label">Prenom: </label>
+                    <input type="text" name="prenom" class="form-control" id="prenomInput" [(ngModel)]= "prenom">
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Adresse email:</label>
+                    <input type="email" name="email" class="form-control" id="emailInput" [(ngModel)] ="email">
+                </div>
+                <div class="mb-3">
+                    <label for="telephoneInput" class="form-label">Numero de téléphone: </label>
+                    <input type="tel" name="telephone" class="form-control" id="telephoneInput" [(ngModel)] ="telephone">
+                </div>
+                <div class="mb-3">
+                    <label for="adresseInput" class="form-label">Adresse: </label>
+                    <input type="tel" name="adresse" class="form-control" id="adresseInput" [(ngModel)] ="adresse">
+                </div>
+                <div class="mb-3">
+                    <label for="imageURLInput" class="form-label">URL de l'image: </label>
+                    <input type="tel" name="imageURL" class="form-control" id="imageURLInput" [(ngModel)] ="imageUrl">
+                </div>
+
+                <!-- La classe de l'enseignant -->
+                <div class="mb-3">
+                    <label for="classe" class="form-label">Classe: </label>
+                    <select id="classe" class="form-select" name="classe" aria-label="classe de l'ensiegnant" [(ngModel)] ="classe">
+                        <option *ngFor="let classe of tabClasses" [value]="classe.idClasse" >{{classe.nomClasse}}</option>
+                    </select>
+                </div>  
+                
+                <!-- La matiere  -->
+                <div class="mb-3" *ngIf="tabMatieres.length">
+                    <label for="matiere" class="form-label">Matiere: </label>
+                    <select id="matiere" class="form-select" name="matiere" aria-label="matiere du prof" [(ngModel)] ="matiereProf">
+                        <option *ngFor="let matiere of tabMatieres" [value]="matiere.idMatiere" >{{matiere.nomMatiere}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChampsCompte()">Annuler</button>
+                <button type="button" class="btn btn-ajouter" (click)="ajouterProfesseur()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ajout apprenant -->
+<div class="modal fade" id="ajoutApprenant" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un Apprenant</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">Nom: </label>
+                    <input type="text" name="name" class="form-control" id="nameInput" [(ngModel)] = "nom">
+                </div>
+                <div class="mb-3">
+                    <label for="prenomInput" class="form-label">Prenom: </label>
+                    <input type="text" name="prenom" class="form-control" id="prenomInput" [(ngModel)]= "prenom">
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Adresse email:</label>
+                    <input type="email" name="email" class="form-control" id="emailInput" [(ngModel)] ="email">
+                </div>
+                <div class="mb-3">
+                    <label for="telephoneInput" class="form-label">Numero de téléphone: </label>
+                    <input type="tel" name="telephone" class="form-control" id="telephoneInput" [(ngModel)] ="telephone">
+                </div>
+                <div class="mb-3">
+                    <label for="adresseInput" class="form-label">Adresse: </label>
+                    <input type="tel" name="adresse" class="form-control" id="adresseInput" [(ngModel)] ="adresse">
+                </div>
+                <div class="mb-3">
+                    <label for="imageURLInput" class="form-label">URL de l'image: </label>
+                    <input type="tel" name="imageURL" class="form-control" id="imageURLInput" [(ngModel)] ="imageUrl">
+                </div>
+
+                <div class="mb-3">
+                    <label for="imageURLInput" class="form-label">Niveau: </label>
+                    <select class="form-select" name="niveau" aria-label="Niveau de l'apprenant" [(ngModel)] ="niveau">
+                        <option *ngFor="let classe of tabClasses" [value]="classe.idClasse" >{{classe.nomClasse}}</option>
+                    </select>
+                </div>
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChampsCompte()">Annuler</button>
+                <button type="button" class="btn btn-ajouter" (click)="ajouterApprenant()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ajout matiere -->
+<div class="modal fade" id="ajoutMatiere" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="mb-3">
+  </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une matiere</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">Nom: </label>
+                    <input type="text" name="name" class="form-control" id="nameInput" [(ngModel)] = "nomMatiere">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description:</label>
+                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" [(ngModel)] = "description"></textarea>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChampsMatiere()">Annuler</button>
+                <button type="button" class="btn btn-ajouter" (click)="ajouterMatiere()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal pour ajouter Classe -->
+<div class="modal" tabindex="-1" id="ajoutClasse">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="ajouterclass modal-title">Ajouter une classe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputNom" class="form-label">Nom :</label>
+                    <input type="text" name="nom" class=" form-control" id="exampleInputNom" aria-describedby="emailHelp" [(ngModel)] = "nomClasse">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputNom" class="form-label">Effectif :</label>
+                    <input type="text" name="nom" class="form-control" id="exampleInputNom" aria-describedby="emailHelp" [(ngModel)] = "effectif">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class=" btn btn-annuler" data-bs-dismiss="modal" (click)="viderChampsClasse()">Annuler</button>
+                    <button type="button" class="btn btn-ajouter" (click)="ajouterClasse()">Ajouter</button>
+                </div>
+    
+            </form>
+
+        </div>
+  
+      </div>
+    </div>
+</div>
+
+<!-- Modal Détail professeur  -->
+<div class="modal fade" id="detailProf" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détail du professeur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="px-3 detail-prof">
+                      <img [src]="imageUrl" class="img-fluid rounded-3" alt="...">
+                    </div>
+                  </div>
+                  <div class="row my-3">
+                    <h5 class="card-title fw-bold">{{prenom}} {{nom}}</h5>
+                    <p class="card-text"><span class="fw-bold">Email:</span> {{email}}</p>
+                    <p class="card-text"><span class="fw-bold">Téléphone:</span> {{telephone}}</p>
+                    <p class="card-text"><span class="fw-bold">Adresse:</span> {{adresse}}</p>
+                    <p class="card-text"><span class="fw-bold">Classe:</span> {{classe}}</p>
+                    <p class="card-text"><span class="fw-bold">Matiere(s):</span> <span *ngFor="let matiere of tabMatieresProf"> <span class="fw-bold" data-bs-toggle="modal" data-bs-target="#detailMatiereProf" (click)="detailsMatiere(matiere)" class="matiere-prof"> {{matiere.nomMatiere}}</span></span></p>
+                    <p class="card-text" *ngIf="etat == 1"><span class="fw-bold">Etat:</span> Actif</p>
+                    <p class="card-text" *ngIf="etat == 0"><span class="fw-bold">Etat:</span> Inactif</p>
+                    <p class="card-text" *ngIf="createAt"><span class="fw-bold">Créé le </span>{{createAt | date : 'dd/MM/yyyy'}} par <span class="fw-bold">{{createBy}} </span></p>
+                    <p class="card-text" *ngIf="updateAt"><span class="fw-bold">Dernière mis à jour: </span>{{updateAt | date : 'dd/MM/yyyy à hh:mm'}}</p>
+                    
+                  </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal détail matiere prof  -->
+<div class="modal fade" id="detailMatiereProf" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détail du professeur(suite)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <span data-bs-toggle="modal" data-bs-target="#detailProf" class="text-start"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                        <h5 class="card-title fw-bold">Professeur: {{prenom}} {{nom}}</h5>
+                    </div>
+                    <div class="row my-3">
+                        <p class="card-text"><span class="fw-bold">Classe:</span> {{classe}}</p>        
+                        <p class="card-text"><span class="fw-bold">Matiere:</span> {{nomMatiere}} </p>
+                        <p class="card-text"><span class="fw-bold">Description:</span> {{description}} </p>
+                        <p class="card-text"><span class="fw-bold">Nombre d'evaluation:</span> {{nbreEvaluation}}</p>
+                        
+                        <div class="card-text" *ngIf=" nbreEvaluation > 0">
+                            <p class="card-text"  *ngFor="let evaluation of tabEvaluations">
+                                <span class="fw-bold">Evaluation {{evaluation.idEvaluation}}:</span> 
+                                <span class="plus-evluation" data-bs-toggle="modal" data-bs-target="#detailEvaluation" (click)="detailsEvaluation(evaluation)"> {{evaluation.type}} ({{evaluation.etat}})</span>
+                            </p>
+                        </div>
+        
+                    </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal détail evaluation prof  -->
+<div class="modal fade" id="detailEvaluation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détail du professeur(suite)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <span data-bs-toggle="modal" data-bs-target="#detailMatiereProf" class="text-start"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                        <h5 class="card-title fw-bold">Professeur: {{prenom}} {{nom}}</h5>
+                    </div>
+                    <div class="row my-3">
+                        <p class="card-text"><span class="fw-bold">Classe:</span> {{classe}}</p>        
+                        <p class="card-text"><span class="fw-bold">Matiere:</span> {{nomMatiere}} </p>
+                        <p class="card-text"><span class="fw-bold">Evaluation {{numEvaluation}}:</span> {{typeEvaluation}} </p>
+                        <p class="card-text"><span class="fw-bold">Etat de l'evaluation:</span> {{etatEvaluation}}</p>
+                        <p class="card-text"><span class="fw-bold">Annee scolaire:</span> {{anneScolaire}}</p>
+                        <p class="card-text"><span class="fw-bold">Semestre:</span> {{semestre}}</p>        
+                        <p class="card-text" *ngIf="etatEvaluation== 'faite'"><span class="fw-bold" class="plus-evluation" data-bs-toggle="modal" data-bs-target="#detailNoteApprenant" (click)="detailsNoteApprenant(classe)">Voir note des apprenants:</span></p>        
+                    </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour note des apprenant  -->
+<div class="modal fade" id="detailNoteApprenant" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width: 740px;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détail du professeur(suite)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <span data-bs-toggle="modal" data-bs-target="#detailEvaluation" class="text-start"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                        <h5 class="card-title fw-bold">Professeur: {{prenom}} {{nom}}</h5>
+                    </div>
+                    <div class="row my-3">
+                        <p class="card-text"><span class="fw-bold">Classe:</span> {{classe}}</p>        
+                        <p class="card-text"><span class="fw-bold">Matiere:</span> {{nomMatiere}} </p> 
+                        <div class="list-user" >
+                            <div class="row  align-items-start g-2 rounded-2 py-2 row-list-user">
+                                <div class="col-2 fw-bold"></div>
+                                <div class="col-2 fw-bold">Nom: </div>
+                                <div class="col-3 fw-bold">Prenom: </div>
+                                <div class="col-4 fw-bold">Email: </div>
+                                <div class="col-1 fw-bold">Note: </div>
+                                <!-- <div class="col">
+                                    <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailProf" (click)="detailProf(prof)">Détails</button>
+                                </div> -->
+                            </div>
+                            <div class="row justify-content-center align-items-center g-2 rounded-2 py-2 row-list-user" *ngFor="let apprenantEvalue of listeApprenantsEvalues">
+                                <div class="col-2" *ngIf="apprenantEvalue.image"><img [src]="apprenantEvalue.image" alt="" class="imageUser"></div>
+                                <div class="col-2" *ngIf="!apprenantEvalue.image"><i class="bi bi-person-circle fs-5"></i></div>
+                                <div class="col-2">{{apprenantEvalue.nom}}</div>
+                                <div class="col-3">{{apprenantEvalue.prenom}}</div>
+                                <div class="col-4">{{apprenantEvalue.email}}</div>
+                                <div class="col-1" *ngIf="showNote"><i class="bi bi-eye-fill" (click)="noteApprenantFound(apprenantEvalue.notes, apprenantEvalue.idApprenant); showNoteApprenant()"></i></div>
+                                <div class="col-1" *ngIf="!showNote"> <span *ngIf="apprenantEvalue.idApprenant == idAppFound"> {{noteApprenant}} </span> <i class="bi bi-eye-slash-fill" (click)="showNoteApprenant()"></i></div>
+                                <!-- <div class="col">
+                                    <button class="btn-actif rounded-1" data-bs-toggle="modal" data-bs-target="#detailProf" (click)="detailProf(prof)">Détails</button>
+                                </div> -->
+                            </div>
+                        </div>
+                             
+                    </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Détail apprenant  -->
+<div class="modal fade" id="detailApprenant" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détails de l'apprenant</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsCompte()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="px-3 detail-prof">
+                      <img [src]="imageUrl" class="img-fluid rounded-3" alt="..." *ngIf="imageUrl">
+                    </div>
+                  </div>
+                  <div class="row my-3">
+                    <h5 class="card-title fw-bold">{{prenom}} {{nom}}</h5>
+                    <p class="card-text"><span class="fw-bold">Email:</span> {{email}}</p>
+                    <p class="card-text"><span class="fw-bold">Téléphone:</span> {{telephone}}</p>
+                    <p class="card-text"><span class="fw-bold">Adresse:</span> {{adresse}}</p>
+                    <p class="card-text"><span class="fw-bold">Niveau:</span> {{classeApprenant}}</p>
+                    <p class="card-text" *ngIf="etat == 1"><span class="fw-bold">Etat:</span> Actif</p>
+                    <p class="card-text" *ngIf="etat == 0"><span class="fw-bold">Etat:</span> Inactif</p>
+                    <p class="card-text" *ngIf="createAt"><span class="fw-bold">Créé le </span>{{createAt | date : 'dd/MM/yyyy'}} par <span class="fw-bold">{{createBy}} </span></p>
+                    <p class="card-text" *ngIf="updateAt"><span class="fw-bold">Dernière mis à jour: </span>{{updateAt | date : 'dd/MM/yyyy à hh:mm'}}</p>
+                    <!-- <p class="card-text" *ngIf="profFound.matieres.length">
+                      <span class="fw-bold">Total matiere(s):</span> {{profFound.matieres.length}} 
+                      <button>Voir plus</button>
+                    </p> -->
+                  </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal détail matiere  -->
+<div class="modal fade" id="detailMatiere" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Détail de la matiere</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsMatiere()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="card-body">
+                  <div class="row my-3">
+                    <h5 class="card-title"><span class="fw-bold">Nom matiere:</span> {{nomMatiere}}</h5>
+                    <p class="card-text"><span class="fw-bold">Description:</span> {{description}}</p>
+                    <p class="card-text" *ngIf="createAt"><span class="fw-bold">Créé le </span>{{createAt | date : 'dd/MM/yyyy'}} par <span class="fw-bold">{{createBy}} </span></p>
+                    <p class="card-text" *ngIf="updateAt"><span class="fw-bold">Dernière mis à jour: </span>{{updateAt | date : 'dd/MM/yyyy à hh:mm'}}</p>   
+                  </div>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal modifier matiere  -->
+<div class="modal fade" id="modifierMatiere" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="mb-3">
+</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Mofier la matière</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsMatiere()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Nom: {{nomMatiere}}</p>
+                <!-- <div class="mb-3">
+                    <label for="nameInput" class="form-label">Nom: </label>
+                    <input type="text" name="name" class="form-control" id="nameInput" [(ngModel)] = "nomMatiere">
+                </div> -->
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description:</label>
+                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" [(ngModel)] = "description"></textarea>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-annuler" data-bs-dismiss="modal" (click)="viderChampsMatiere()">Annuler</button>
+                <button type="button" class="btn btn-ajouter" data-bs-dismiss="modal" (click)="modifierMatiere()">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>

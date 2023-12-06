@@ -1,0 +1,239 @@
+/* couleur de base : 
+#BE3144
+#F05941 */
+/* Début menu  */
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    box-sizing: border-box;
+    column-gap: 3vh;
+}
+
+.menu{
+    height: 100%;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.logo{
+    width: 30vh;
+    height: 30vh;
+    border-radius: 100%;
+}
+
+.active-page{
+    background-color: #BE3144;
+}
+
+.nav-item a{
+    color: white;
+    font-weight: bold;
+}
+
+.nav-item a:hover{
+    background-color: #BE3144;
+}
+
+.déconnexion{
+    color: #BE3144;
+}
+/* Fin menu  */
+
+/* Début dashBord */
+.annee-scolaire{
+    color: #BE3144;
+}
+
+button{
+    border: none;
+}
+
+.actions .btn{
+    background-color: #F05941;
+    color: white;
+    padding: 4vh;
+    border: none;
+    font-weight: bold;
+    border-top-left-radius: 3vh;
+    border-bottom-right-radius: 4vh;
+}
+
+.actions .btn:hover{
+    background-color: #BE3144;
+    transition: 1s;
+    scale: 1.1;
+
+}
+
+.btn-search{
+    background-color: #BE3144;
+    color: white;
+}
+
+.statistic-item .card{
+    border: none;
+    border-radius: 2vh;
+}
+
+.statistic-item .btn-statictic{
+    border-top-left-radius: 2vh;
+    color: white;
+}
+.statistic-item .btn-statictic:hover{
+    border-top-left-radius: 0vh;
+    border-bottom-right-radius: 2vh;
+    color: wheat;
+    scale: 1.2;
+}
+
+/* Pour les professeurs */
+.statistic-item .prof{
+    border:1px solid #F05941;
+    color: #F05941;
+}
+.statistic-item .btn-prof{
+    background-color:  #F05941;
+}
+.statistic-item .btn-prof:hover{
+    background-color: #BE3144;
+}
+
+/* Pour les apprenants */
+.statistic-item .app{
+    border:1px solid #BE3144;
+    color: #BE3144;
+}
+.statistic-item .btn-app{
+    background-color:  #BE3144;
+}
+.statistic-item .btn-app:hover{
+    background-color: #F05941;
+}
+
+
+/* Pour les classes */
+.statistic-item .classe{
+    border:1px solid #BE3144;
+    color: #BE3144;
+}
+.statistic-item .btn-classe{
+    background-color:  #BE3144;
+}
+.statistic-item .btn-classe:hover{
+    background-color: #F05941;
+}
+
+/* Pour les metiers */
+.statistic-item .matiere{
+    border:1px solid #F05941;
+    color: #F05941;
+}
+.statistic-item .btn-matiere{
+    background-color:  #F05941;
+}
+.statistic-item .btn-matiere:hover{
+    background-color: #BE3144;
+}
+
+
+/* Boutons actifs et inactifs */
+.btn-actif{
+    background-color: #F05941;
+    color: white;
+}
+
+.btn-inactif{
+    background-color: #BE3144;
+    color: white;
+}
+
+/* Liste des utilisateurs */
+.list-user{
+    height: 56vh;
+    overflow-y: scroll;
+}
+
+.row-list-user{
+    border-bottom: 1px solid #F05941;
+    /* max-height: 50vh; */
+}
+
+.btn-annuler{
+    background-color: #F05941;
+    color: white;
+}
+
+.btn-ajouter {
+    background-color: #BE3144;
+    color: wheat;
+}
+
+.imageUser{
+    width: 5vh;
+    height: 5vh;
+    border-radius: 100%;
+}
+
+.bi-person-circle{
+    color: #BE3144;
+}
+
+/* .table tbody tr td button{
+    border: none;
+    padding: 2vh;
+    border: 1px solid maroon;
+}
+
+.boutons{
+    color: white;
+    background-color: #F05941;
+}
+td .btn{
+    background-color: #F05941;
+} */
+
+.actif{
+    background-color: #BE3144;
+}
+
+.matiere-prof, .plus-evluation{
+    border-bottom: 1px solid #F05941;
+    cursor: pointer;
+}
+
+.matiere-prof:hover, .plus-evluation:hover{
+    border-bottom: none;
+    color: #BE3144;
+}
+
+.bi-arrow-left-circle-fill, .bi-arrow-left-square-fill{
+    color: #BE3144;
+}
+/* Fin dashbord */
+
+/* Début gestion des matiere  */
+.table{
+    height: 56vh;
+    overflow-y: scroll;
+}
+
+thead tr th{
+    background-color: #F05941;
+    color: white;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
+.btn-modifier{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #BE3144 ;
+    color:  #BE3144;
+}
+
+.btn-details{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #F05941 ;
+    color:  #F05941;
+}
+
+/* Fin gestion des matieres  */

@@ -1,0 +1,382 @@
+<div class="main-container px-0">
+  <div class="grid-item">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark menu" >
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <img src="assets/logogestionNote.png" class="logo" alt="">
+      </a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
+
+        <li class="nav-item mb-3">
+          <a href="#" class="nav-link " routerLink="/admin">Dashbord</a>
+        </li>
+        <li class="nav-item mb-3">
+          <a href="#" class="nav-link" routerLink="/admin-gestionProf">Gestion professeur</a>
+        </li>
+        <li class="nav-item mb-3">
+          <a href="#" class="nav-link active-page" aria-current="page">Gestion apprenant</a>
+        </li>
+      </ul>
+
+      <hr>
+      <a href="#" class="nav-link déconnexion fs-5 fw-bold ms-3" >Deconnexion</a>
+    </div>
+  </div>
+  <div class="grid-item">
+    <div class="second-menu mb-3">
+      <div class="container my-3">
+          <div class="row">
+              <div class="search col-md-8">
+                  <p class="fs-4"><i class="annee-scolaire bi bi-calendar2-event-fill me-2 fs-2"></i> Anneée scolaire: {{anneeScolaireActu}}</p>
+              </div>
+              
+              <div class="profil col-md-4">
+                  <p class="fs-4">
+                      <span class="me-2"><i class="bi bi-person-circle fs-2"></i></span>
+                      <span class="fw-bold">{{adminConnect.email}}</span>
+                  </p>
+              </div>
+          </div>
+          <hr>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Contenu principal  -->
+
+      <!-- statistic -->
+      <div class="statistic">
+        <div class="row row-statistic">
+          <!-- Nombre de classe active -->
+          <div class="col-lg-3 col-md-6 px-2">
+            <div class="card mb-3 shadow py-4">
+              <div class="card-body">
+                <div class="row g-0">
+                  <div class="col-lg-4">
+                    <i class="bi bi-bank compte-prof actif"></i>
+                  </div>
+                  <div class="col-lg-8 ">
+                    <h4 class="card-title fw-bold">{{classeActif}}</h4>
+                    <p class="card-text fs-5"> Classe(s)</p>
+                    <p class="card-text fs-5"> Active(s)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nombre de classe supprimées -->
+          <div class="col-lg-3 col-md-6 px-2">
+            <div class="card mb-3 shadow py-4">
+              <div class="card-body">
+                <div class="row g-0">
+                  <div class="col-lg-4">
+                    <i class="bi bi-bank2 compte-prof inactif"></i>
+                  </div>
+                  <div class="col-lg-8 ">
+                    <h4 class="card-title fw-bold">{{classeInactif}}</h4>
+                    <p class="card-text fs-5"> Classe(s)</p>
+                    <p class="card-text fs-5"> Supprimée(s)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nombre d'apprenant actif' -->
+          <div class="col-lg-3 col-md-6 px-2">
+            <div class="card mb-3 shadow py-4">
+              <div class="card-body">
+                <div class="row g-0">
+                  <div class="col-lg-4">
+                    <!-- <i class="bi bi-person-vcard-fill compte-prof"></i> -->
+                    <i class="bi bi-person-fill-check compte-prof actif"></i>
+                    <!-- <i class="bi bi-person-fill-slash prof-desable compte-prof"></i> -->
+                  </div>
+                  <div class="col-lg-8">
+                    <h4 class="card-title fw-bold">{{apprenantActif}}</h4>
+                    <p class="card-text fs-5"> Apprenant(s)</p>
+                    <p class="card-text fs-5"> Actif(s)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nombre d'apprenant inactif' -->
+          <div class="col-lg-3 col-md-6 px-2">
+            <div class="card mb-3 shadow py-4">
+              <div class="card-body">
+                <div class="row g-0">
+                  <div class="col-lg-4">
+                    <i class="bi bi-person-fill-slash prof-desable compte-prof inactif"></i>
+                  </div>
+                  <div class="col-lg-8">
+                    <h4 class="card-title fw-bold">{{apprenantInactif}}</h4>
+                    <p class="card-text fs-5"> Apprenant(s)</p>
+                    <p class="card-text fs-5"> Inactif(s)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="container-princiapl">
+        <!-- Liste des classes  -->
+        <div *ngIf="choiceListe && viewClasse">
+          <div class="mt-3">
+            <button type="button" class="btn btn-primary bouttonajoutclasses mb-5" (click)="viewCorbeille()">Voir corbeille</button>
+            <div class="d-flex justify-content-between mb-5">
+                <div class="col-md-6">
+                  <h3>Liste des classes actives</h3>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <input type="text" name="search" class="form-control" [(ngModel)]="filterValue" (input)="onSearch()">
+                    <button class="searchclasse input-group-text"><i class="bi bi-search"></i></button>
+                  </div>
+                </div>  
+            </div>
+
+          </div>
+
+
+          <!-- liste des classe -->
+          <div class="list">
+            <div class="mt-3" *ngFor="let item of filteredClasse">
+              <div class="listedesclasses card " *ngIf="item.etatClasse == 1" >
+                <div class="divclass card-body">
+
+                  <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item paraphclasselien">
+                      <h5 class="card-title">Classe</h5>
+                      <a (click)="openModal(item)">{{item.nomClasse}}</a>
+                    </li>
+                    <li class="nav-item">
+                      <h5 class="card-title">Effectif </h5>
+                      <p class="paraphclasse">{{item.effectif}}</p>
+                    </li>
+                    <li class="nav-item">
+                    <!-- <div class="col-md-6"> -->
+                      <h5 class="titreDet">Action</h5>
+                      <div class="d-grid gap-2 d-md-block  btns mt-3 ">
+                          <button type="button" class="modifier btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#modifierClasse" (click)="changerInfoClasse(item)">Modifier</button>
+                          <button class=" supprimer btn btn-danger btn-supprimer active" type="button" (click)="supprimerClasse(item)" >Supprimer</button>
+                      </div>
+                    <!-- </div> -->
+                    </li>
+                    <li class="nav-item">
+                      <!-- <div class="col-md-6"> -->
+                        <h5 class="titreDet">Details</h5>
+                        <div class="d-grid gap-2 d-md-block  btns mt-3 ">
+                          <button type="button" class="details btn btn-primary" (click)="listeChoiceFunction();detailClasse(item)">Details </button>
+                            <!-- <button type="button" class="btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#modalModifierContact"
+                                >Activer</button> -->
+                            <!-- <button class="btn btn-danger btn-supprimer active" type="button">Desactiver</button> -->
+                        </div>
+                      <!-- </div> -->
+                      </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Liste des classes supprimer  -->
+        <div *ngIf="!viewClasse">
+          <div class="mt-3">
+            <button class=" buttonretour mb-5" (click)="viewCorbeille()"><i class="bi bi-arrow-left"></i></button>
+            <div class=" row  mb-5">
+              <div class="col-md-6">
+                <h3>Liste des classes supprimées</h3>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <input type="text" name="search" class="form-control" [(ngModel)]="filterValue" (input)="onSearch()">
+                  <button class="searchclasse input-group-text"><i class="bi bi-search"></i></button>
+                </div>
+
+              </div>
+            </div>
+  
+          </div>
+  
+          <!-- liste des classes supprimée -->
+          <div class="list">
+            <div class="mt-3" *ngFor="let item of filteredClasse">
+              <div class="listedesclasses card " *ngIf="item.etatClasse == 0" >
+                <div class="divclass card-body">
+  
+                  <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item paraphclasselien">
+                      <h5 class="card-title">Classe</h5>
+                      <a (click)="openModal(item)">{{item.nomClasse}}</a>
+                    </li>
+                    <li class="nav-item">
+                      <h5 class="card-title">Effectif </h5>
+                      <p class="paraphclasse">{{item.effectif}}</p>
+                    </li>
+                    <li class="nav-item">
+                    <!-- <div class="col-md-6"> -->
+                      <h5 class="titreDet">Action</h5>
+                      <div class="d-grid gap-2 d-md-block  btns mt-3 ">
+                          <!-- <button type="button" class="modifier btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#modifierClasse" (click)="changerInfoClasse(item)">Modifier</button> -->
+                          <button class=" supprimer btn btn-danger btn-supprimer active" type="button" (click)="restaurerClasse(item)" >Restaurer</button>
+                      </div>
+                    <!-- </div> -->
+                    </li>
+                    
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- lister les apprenants -->
+        <div class="list" *ngIf="!choiceListe" >
+          <div class="my-5">
+            <button class=" buttonretour me-3" (click)="listeChoiceFunction()"><i class="bi bi-arrow-left"></i></button>
+          </div>
+          <div class="card-header" >
+            <div class="d-flex justify-content-between">
+              <div class="col-md-6">
+                <h3 class="fw-bold">{{nomClasse}} </h3>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" [(ngModel)]="filterValue" (input)="onSearchApprenant()">
+                    <button class="searchclasse input-group-text"><i class="bi bi-search"></i></button>
+                </div>
+              </div>  
+            </div>
+            <h5><span class="fw-bold">Effectif:</span> {{effectif}} </h5>
+            <h5><span class="fw-bold">Nombre d'apprenants:</span> {{nbreApprenantClasse}}  </h5>
+          </div>
+          <div class="listedesclasses divclass card" *ngIf="nbreApprenantClasse">
+            <div class="card-body" *ngFor="let item of filteredApprenants">
+              <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                  <h5 class="card-title">Nom</h5>
+                  <p class="mt-4">{{item.nom}} </p>
+                </li>
+                <li class="nav-item">
+                  <h5 class="card-title">Prenom</h5>
+                  <p class="mt-4">{{item.prenom}}</p>
+                </li>
+                <li class="nav-item">
+                  <h5 class="card-title">Email</h5>
+                  <p class="mt-4">{{item.email}}</p>
+                </li>
+                <!-- <li class="nav-item">
+                  <h5 class="card-title">Telephone</h5>
+                </li>
+                <li class="nav-item">
+                  <h5 class="card-title">Mot de passe</h5>
+                </li>
+                <li class="nav-item">
+                  <h5 class="card-title">Adresse</h5>
+                </li> -->
+                <li class="nav-item">
+                <!-- <div class="col-md-6"> -->
+                  <h5 class="titreDet">Etat</h5>
+                  <div class="d-grid gap-2 d-md-block  btns mt-3 ">
+                      <!-- <button type="button" class="modifier btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#modalModifierContact"
+                          >Activer</button>
+                      <button class="supprimer btn btn-danger btn-supprimer active" type="button">Desactiver</button> -->
+                      <button class=" modifier btn btn-activer me-2" *ngIf="item.etatApprenant==0" (click) = "activerApprenant(item)">Activer</button>
+                      <button class=" supprimer btn btn-desactiver me-2" *ngIf="item.etatApprenant==1" (click)="desactiverApprenant(item)">Désactiver</button>
+                  <!-- </div> -->
+                </div>
+                </li>
+                <li class="nav-item">
+                    <!-- <div class="col-md-6"> -->
+                      <h5 class="titreDet">Detail</h5>
+                      <div class="d-grid gap-2 d-md-block  btns mt-3 ">
+                        <button type="button" class="details btn btn-primary active btnAdd" data-bs-toggle="modal" data-bs-target="#detailApprenant"  (click)="detailApprenant(item)">Details</button>
+                          <!-- <button class="btn btn-danger btn-supprimer active" type="button">Desactiver</button> -->
+                      <!-- </div> -->
+                    </div>
+                </li>
+            </ul>
+             </div>
+  
+          </div>
+          <div class="mt-5"></div>
+            <!-- <h3 class=" fw-bold titreUs shadow p-2 text-center mb-5 mt-5">Liste des classes</h3> -->
+  
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+
+<!-- modification de la classe -->
+<div class="modal" tabindex="-1" id="modifierClasse">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Modification</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <label for="exampleInputNom" class="form-label">Nom :</label>
+        <input type="text" name="nom" class="form-control" id="exampleInputNom" aria-describedby="emailHelp" [(ngModel)] = "nomClasse">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputNom" class="form-label">Effectif :</label>
+        <input type="text" name="nom" class="form-control" id="exampleInputNom" aria-describedby="emailHelp" [(ngModel)] = "effectif">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="detailsannuler btn btn-danger" data-bs-dismiss="modal" >Annuler</button>
+      <button type="button" class="detailsmodifier btn btn-primary" (click)="modificationClasse()">Modifier</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Modal Détail apprenant  -->
+<div class="modal fade" id="detailApprenant" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Détails de l'apprenant</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="viderChampsDetailApprenant()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card mb-3" style="max-width: 540px;">
+              <div class="card-body">
+                <div class="row text-center">
+                  <div class="px-3 detail-prof">
+                    <img [src]="imageUrl" class="img-fluid rounded-3" alt="..." *ngIf="imageUrl">
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <h5 class="card-title fw-bold">{{prenom}} {{nom}}</h5>
+                  <p class="card-text"><span class="fw-bold">Email:</span> {{email}}</p>
+                  <p class="card-text"><span class="fw-bold">Téléphone:</span> {{telephone}}</p>
+                  <p class="card-text"><span class="fw-bold">Adresse:</span> {{adresse}}</p>
+                  <!-- <p class="card-text"><span class="fw-bold">Niveau:</span> {{classeApprenant}}</p> -->
+                  <p class="card-text" *ngIf="etat == 1"><span class="fw-bold">Etat:</span> Actif</p>
+                  <p class="card-text" *ngIf="etat == 0"><span class="fw-bold">Etat:</span> Inactif</p>
+                  <p class="card-text" *ngIf="createAt"><span class="fw-bold">Créé le </span>{{createAt | date : 'dd/MM/yyyy'}} par <span class="fw-bold">{{createBy}} </span></p>
+                  <p class="card-text" *ngIf="updateAt"><span class="fw-bold">Dernière mis à jour: </span>{{updateAt | date : 'dd/MM/yyyy à hh:mm'}}</p>
+                  <!-- <p class="card-text" *ngIf="profFound.matieres.length">
+                    <span class="fw-bold">Total matiere(s):</span> {{profFound.matieres.length}}
+                    <button>Voir plus</button>
+                  </p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

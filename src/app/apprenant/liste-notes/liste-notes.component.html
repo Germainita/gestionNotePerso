@@ -1,0 +1,80 @@
+<div class="container py-5" *ngIf="userConnect">
+  <!-- Profil    -->
+  <div class="card mb-5 shadow-sm border-0 rounded-5" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-6">
+            <img [src]="userConnect.image" class="img-fluid rounded-start-5" alt="">
+          </div>
+          <div class="col-md-6 ps-3">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">{{userConnect.nom}} {{userConnect.prenom}}</h5>
+              <p class="card-text"><span class="fw-bold">Email:</span> {{userConnect.email}}</p>
+              <p class="card-text"><span class="fw-bold">Telephone:</span> {{userConnect.telephone}}</p>
+              <p class="card-text"><span class="fw-bold">Adresse:</span> {{userConnect.adresse}}</p>
+              <p class="card-text"><span class="fw-bold">Statut:</span> Apprenant</p>
+              <a href="#" routerLink="/auth" class="btn btn-deconnexion">Deconnexion</a>
+            </div>
+          </div>
+        </div>
+  </div>
+
+    <!-- <div class="profil text-center mb-5">
+        
+        <img [src]="userConnect.image" alt="">
+        <div class="text-center">
+            <p>{{userConnect.nom}} {{userConnect.prenom}}</p>
+            <p>Email: {{userConnect.email}}</p>
+            <p>Telephone: {{userConnect.telephone}}</p>
+            <p>Adresse: {{userConnect.adresse}}</p>
+        </div>
+    </div> -->
+
+    <!-- Liste des notes  -->
+    <div class="note mt-4">
+        <div class="d-flex justify-content-between mb-5">
+            <div class="col-md-4">
+              <h3>Liste notes</h3>
+            </div>
+            <div class="col-md-2 px-2">
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="filteredSemestre">
+                    <option value="Semestre 1">Semestre 1</option>
+                    <option value="Semestre 2">Semestre 2</option>
+                    <option value="Semestre 3">Semestre 3</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" [(ngModel)]="anneeScolaire">
+                    <option value="2022/2023">2022/2023</option>
+                    <option value="2023/2024">2023/2024</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-search ms-3" (click)="onSearchNotes()">Rechercher</button>
+                <span class="ms-5 fw-bold">Annee actuelle: {{anneeScolaireActu}}</span>
+            </div>
+             
+        </div>
+
+        <!-- La liste des notes  -->
+        <table class="table table-responsive shadow">
+            <thead>
+              <tr>
+                <th scope="col">Matiere</th>
+                <th scope="col">Description</th>
+                <th scope="col">Type Evaluation</th>
+                <th scope="col">Date Evaluation</th>
+                <th scope="col">Note</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let note of tabNotesFiltre">
+              <tr>
+                <td>{{note.matiere}}</td>
+                <td>{{note.desc}}</td>
+                <td>{{note.typeEvaluation}}</td>
+                <td>{{note.date | date: "dd/MM/yyyy"}}</td>
+                <td>{{note.note}}</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

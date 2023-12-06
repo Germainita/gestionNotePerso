@@ -1,0 +1,161 @@
+/* Menu  */
+.main-container{
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  box-sizing: border-box;
+  column-gap: 3vh;
+}
+.menu{
+    height: 100%;
+    width: auto;
+    box-sizing: border-box;
+  }
+  
+  .logo{
+    width: 30vh;
+    height: 30vh;
+    border-radius: 100%;
+  }
+  
+  .active-page{
+    background-color: #BE3144;
+  }
+  
+  .nav-item a{
+    color: white;
+    font-weight: bold;
+  }
+  
+  .nav-item a:hover{
+    background-color: #BE3144;
+  }
+  
+  .déconnexion{
+    color: #BE3144;
+  }
+  
+  
+  /* container */
+/* Les statistic */
+.row-statistic{
+    padding: 0 5vh;
+}
+
+.row-statistic .card{
+    border: none;
+    border-right: 2px solid #F05941 ;
+}
+.compte-prof{
+    font-size: 5vh;
+    color: #BE3144;
+}
+
+.inactif{
+  color: #F05941;
+}
+
+/* Taille du contenu principal */
+.container-princiapl .list{
+  height: 76vh;
+  overflow-y: scroll;
+}
+
+  .annee-scolaire{
+  color: #BE3144;
+  }
+  
+  .divclass {
+  box-shadow: 6px 6px  rgb(226, 221, 221);
+  }
+  .bouttonajoutclasses  {
+  background-color: #BE3144;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px 0px 15px 0px;
+  }
+  .bouttonajoutclasses:hover {
+  background-color: #BE3144;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px 0px 15px 0px;
+  }
+  .ajouterclass{
+  color: #BE3144;
+  font-weight: bold;
+  }
+  .searchclasse{
+  background-color: #BE3144;
+  color: white;
+  }
+  .nav-item h5{
+  background-color: rgb(226, 221, 221);
+  padding: 10px 20px;
+  }
+  .paraphclasse {
+  font-size: 28px;
+  }
+  .paraphclasselien a {
+  font-size: 28px;
+  color: black;
+  }
+  .paraphclasselien a:hover {
+  color: black;
+  background-color: white;
+  }
+  .details{
+  background-color: #F05941 ;
+  border: none;
+  padding: 8px 30px;
+  box-shadow: 4px 4px  rgb(226, 221, 221);
+  }
+  .details:hover {
+  background-color: #F05941 ;
+  }
+  .detailsmodifier{
+  background-color: #F05941 ;
+  border: none;
+  padding: 8px 30px;
+  box-shadow: 4px 4px  rgb(226, 221, 221);
+  }
+  .detailsmodifier:hover {
+  background-color: #F05941 ;
+  }
+  .detailsannuler{
+  background-color: #BE3144;
+  border: none;
+  padding: 8px 30px;
+  box-shadow: 4px 4px  rgb(226, 221, 221);
+  }
+  .modifier{
+  background-color: transparent;
+  color: black;
+  padding: 8px 30px;
+  box-shadow: 3px 3px #BE3144;
+  border: none;
+  /* border: 3px solid #F05941; */
+  background-color: rgb(226, 221, 221);
+  }
+  .modifier:hover{
+  color: black;
+  background-color: rgb(226, 221, 221);
+  }
+  .supprimer{
+  padding: 8px 30px;
+  box-shadow: 3px 3px  #F05941;
+  }
+  
+  /* liste apprenants */
+  .buttonretour{
+  background-color: #BE3144;
+  border: none;
+  color: white;
+  padding: 2px 10px;
+  }
+  .buttonretour i{
+  font-size: 25px;
+  font-weight: bold;
+  }
+
+.bi-person-circle{
+    color: #BE3144;
+}

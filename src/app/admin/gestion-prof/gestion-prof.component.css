@@ -1,0 +1,170 @@
+/* couleur de base : 
+#BE3144
+#F05941 */
+/* Début menu  */
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    box-sizing: border-box;
+    column-gap: 3vh;
+}
+
+.menu{
+    /* height: 100vh; */
+    min-height: 100%;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.logo{
+    width: 30vh;
+    height: 30vh;
+    border-radius: 100%;
+}
+
+.active-page{
+    background-color: #BE3144;
+}
+
+.nav-item a{
+    color: white;
+    font-weight: bold;
+}
+
+.nav-item a:hover{
+    background-color: #BE3144;
+}
+
+.déconnexion{
+    color: #BE3144;
+}
+/* Fin menu  */
+
+/* Début gestion professeur */
+.annee-scolaire{
+    color: #BE3144;
+}
+
+.row-statistic{
+    padding: 0 20vh;
+}
+
+.row-statistic .card{
+    border: none;
+    border-right: 2px solid #F05941 ;
+}
+.compte-prof{
+    font-size: 13vh;
+    color: #BE3144;
+    /* padding: 0 4vh;
+    border-right: 3px solid #BE3144; */
+}
+
+.table{
+    min-height: 56vh;
+    overflow-y: scroll;
+}
+
+thead tr th{
+    background-color: #F05941;
+    color: white;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
+.imageUser{
+    width: 10vh;
+    height: 10vh;
+    border-radius: 100%;
+}
+
+.btn-search{
+    background-color: #BE3144;
+    color: white;
+}
+
+/* .btn-modifier{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #BE3144 ;
+    color:  #BE3144;
+} */
+/* .btn-details{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #F05941 ;
+    color:  #F05941;
+} */
+
+.btn-activer{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #BE3144;
+    color:  black;
+}
+.btn-desactiver{
+    background-color: white!important;
+    box-shadow: 4px 4px 2px #F05941;
+    color:  black;
+}
+
+.btn-matiere{
+    background-color: transparent;
+    color: white;
+    padding: 8px 30px;
+    box-shadow: 3px 3px rgb(226, 221, 221);
+    border: none;
+    /* border: 3px solid #F05941; */
+    background-color: #BE3144;
+}
+.btn-annuler{
+    background-color: #F05941;
+    color: white;
+}
+
+.btn-ajouter {
+    background-color: #BE3144;
+    color: wheat;
+}
+
+.matiere-prof, .plus-evluation{
+    border-bottom: 1px solid #F05941;
+    cursor: pointer;
+}
+
+.matiere-prof:hover, .plus-evluation:hover{
+    border-bottom: none;
+    color: #BE3144;
+}
+
+.bi-arrow-left-circle-fill, .bi-person-circle{
+    color: #BE3144;
+}
+
+.btn-details{
+    background-color: #F05941 ;
+    border: none;
+    padding: 8px 30px;
+    box-shadow: 4px 4px  rgb(226, 221, 221);
+    color: white;
+}
+.btn-details:hover {
+background-color: #F05941 ;
+}
+
+    .detailsannuler{
+    background-color: #BE3144;
+    border: none;
+    padding: 8px 30px;
+    box-shadow: 4px 4px  rgb(226, 221, 221);
+    }
+.btn-modifier{
+background-color: transparent;
+color: black;
+padding: 8px 30px;
+box-shadow: 3px 3px #BE3144;
+border: none;
+/* border: 3px solid #F05941; */
+background-color: rgb(226, 221, 221);
+}
+.btn-modifier:hover{
+color: black;
+background-color: rgb(226, 221, 221);
+}

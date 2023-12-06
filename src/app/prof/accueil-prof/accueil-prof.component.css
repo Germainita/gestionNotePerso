@@ -1,0 +1,79 @@
+
+/* Stylisation prof  */
+.card{
+  margin: 0 auto;
+}
+
+
+.btn-deconnexion{
+  background-color: #F05941;
+  color: white;
+}
+
+.card img{
+  height: 100%;
+}
+
+
+.btn-search{
+  background-color: #BE3144;
+  color: white;
+}
+
+thead tr th{
+  background-color: #F05941;
+  color: white;
+  font-weight: bold;
+  font-size: 3vh;
+}
+
+.btn-details, .btn-noter{
+  background-color: #BE3144 ;
+  border: none;
+  padding: 8px 30px;
+  box-shadow: 4px 4px  rgb(226, 221, 221);
+  color: white;
+}
+.btn-details:hover, .btn-noter:hover {
+background-color: #BE3144 ;
+}
+
+.btn-evaluer{
+  background-color: rgb(226, 221, 221) ;
+  border: none;
+  padding: 8px 30px;
+  box-shadow: 4px 4px #BE3144;
+  color: #BE3144;
+}
+.btn-evaluer:hover {
+background-color: rgb(226, 221, 221) ;
+}
+
+.bi{
+  color: #BE3144;
+}
+
+.btn-valider{
+  background-color: #BE3144;
+  color: white;
+}
+.btn-annuler{
+  background-color: #F05941;
+  color: white;
+}
+
+.button-action {
+  padding: 8px 15px;
+  border-radius: 5px !important;
+  margin: 5px 0px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  font-size: 18px !important;
+  font-weight: 300
+}
+
+.list-user img{
+  width: 5vh;
+  height: 5vh;
+  border-radius: 100%;
+}
