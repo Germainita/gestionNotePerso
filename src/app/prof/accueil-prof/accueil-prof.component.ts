@@ -209,7 +209,11 @@ export class AccueilProfComponent implements OnInit {
   validerNote(){
     console.log(this.evaluationFound)
     this.tabApprenants.forEach((element:any) => {
-      if (parseInt(element.note)>20 || parseInt(element.note) <0){
+      if (element.note == ""){
+        this.verifierChamp("Impossible", "Veuillez remplir les champs", "error");
+      }
+
+      else if (parseInt(element.note)>20 || parseInt(element.note) <0){
         this.verifierChamp("Impossible", "La note est comprise entre 0 et 20", "error");
       } 
       else{
@@ -226,6 +230,9 @@ export class AccueilProfComponent implements OnInit {
         // console.log(objetNote);
         element.notes.push(objetNote);
         // console.log(element);
+
+        // On vide l'attribut note 
+        // element.note = "";
       }
       // console.log(this.tabClasses);
       // On modifie l'attribue isNoted de l'evaluation 

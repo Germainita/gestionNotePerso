@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/gestion-note-g5",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

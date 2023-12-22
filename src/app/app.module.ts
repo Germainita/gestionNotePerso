@@ -24,7 +24,7 @@ import { AccueilProfComponent } from './prof/accueil-prof/accueil-prof.component
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
