@@ -10,9 +10,9 @@ import { Professeur } from 'src/app/models/models';
 export class ListeNotesComponent implements OnInit{
 
   userConnect:any;
-  tabClasses:any;
-  tabProfs:any;
-  notesUser:any
+  tabClasses:any[] = [];
+  tabProfs:any[] = [];
+  notesUser:any[] = []
 
   filteredSemestre: string = "Semestre 1"
 

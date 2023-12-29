@@ -207,7 +207,7 @@ export class AccueilProfComponent implements OnInit {
 
   // Méthode pour enregistrer les notes pour les apprenants 
   validerNote(){
-    console.log(this.evaluationFound)
+    // console.log(this.evaluationFound)
     this.tabApprenants.forEach((element:any) => {
       if (element.note == ""){
         this.verifierChamp("Impossible", "Veuillez remplir les champs", "error");
